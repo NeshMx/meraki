@@ -2,9 +2,6 @@ import random
 
 
 class Matrix(object):
-    '''
-    Class that defines the matrix structure and some methods to interact with them.
-    '''
 
     def __init__(self, size, input_matrix=[]):
         self.size = size
@@ -25,9 +22,6 @@ class Matrix(object):
     def generate_matrix(self):
         self.matrix = [[random.randint(0, 4) for j in range(
             self.size)] for i in range(self.size)]
-
-    def create_matrix_manually(self):
-        pass
 
     def min_algorithm(self, numbers):
         min_num = None
@@ -59,7 +53,7 @@ class Matrix(object):
                 max_counter = value
         return max_num
 
-    def travel_neighbors(self, x, y):
+    def search_neighbors(self, x, y):
         numbers = {}
         for i in range(3):
             for j in range(3):
@@ -73,31 +67,30 @@ class Matrix(object):
                         numbers[tmp_num] += 1
         return numbers
 
-    def travel_matrix(self):
-        '''
-        Method for visiting each matrix cell and apply the needed algorithms.
-        '''
+    def search_matrix(self):
         min_algorithm_matrix = []
         max_algorithm_matrix = []
         for x in range(self.size):
             tmp_min_row = []
             tmp_max_row = []
             for y in range(self.size):
-                numbers = self.travel_neighbors(x, y)
+                numbers = self.search_neighbors(x, y)
                 tmp_min_row.append(self.min_algorithm(numbers))
                 tmp_max_row.append(self.max_algorithm(numbers))
             min_algorithm_matrix.append(tmp_min_row)
             max_algorithm_matrix.append(tmp_max_row)
-        min_matrix = Matrix(size=len(min_algorithm_matrix[0]), input_matrix=min_algorithm_matrix)
-        max_matrix = Matrix(size=len(max_algorithm_matrix[0]), input_matrix=max_algorithm_matrix)
-        print('Algoritmo con valores mínimos: \n')
+        min_matrix = Matrix(
+            size=len(min_algorithm_matrix[0]), input_matrix=min_algorithm_matrix)
+        max_matrix = Matrix(
+            size=len(max_algorithm_matrix[0]), input_matrix=max_algorithm_matrix)
+        print('Minimo: \n')
         print(min_matrix)
-        print('Algoritmo con valores máximos: \n')
+        print('Maximo: \n')
         print(max_matrix)
 
 
 if __name__ == '__main__':
-    matrix_size = int(input('Ingrese el tamaño de la matriz: '))
+    matrix_size = int(input('Introduzca el tamano de la matriz: '))
     matrix = Matrix(matrix_size)
     print(matrix)
-    matrix.travel_matrix()
+    matrix.search_matrix()
